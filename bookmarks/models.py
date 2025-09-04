@@ -53,11 +53,11 @@ def build_tag_string(tag_names: List[str], delimiter: str = ","):
 
 
 def get_ollama_base_api_url():
-    return os.getenv("LD_OLLAMA_BASE_API_URL", "http://localhost:11434/api/generate")
+    return os.getenv("LD_OLLAMA_BASE_API_URL", "")
 
 
 def get_ollama_model_name():
-    return os.getenv("LD_OLLAMA_MODEL_NAME", "gemma3:270m")
+    return os.getenv("LD_OLLAMA_MODEL_NAME", "")
 
 
 class Bookmark(models.Model):
