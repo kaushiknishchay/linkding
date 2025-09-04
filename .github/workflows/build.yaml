@@ -13,12 +13,6 @@ jobs:
         id: get_version
         run: echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -39,10 +33,8 @@ jobs:
           file: ./docker/default.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
-            sissbruecker/linkding:latest
-            sissbruecker/linkding:${{ env.VERSION }}
-            ghcr.io/sissbruecker/linkding:latest
-            ghcr.io/sissbruecker/linkding:${{ env.VERSION }}
+            ghcr.io/kaushiknishchay/linkding:latest
+            ghcr.io/kaushiknishchay/linkding:${{ env.VERSION }}
           target: linkding
           push: true
 
@@ -53,10 +45,8 @@ jobs:
           file: ./docker/alpine.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
-            sissbruecker/linkding:latest-alpine
-            sissbruecker/linkding:${{ env.VERSION }}-alpine
-            ghcr.io/sissbruecker/linkding:latest-alpine
-            ghcr.io/sissbruecker/linkding:${{ env.VERSION }}-alpine
+            ghcr.io/kaushiknishchay/linkding:latest-alpine
+            ghcr.io/kaushiknishchay/linkding:${{ env.VERSION }}-alpine
           target: linkding
           push: true
 
@@ -67,10 +57,8 @@ jobs:
           file: ./docker/default.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
-            sissbruecker/linkding:latest-plus
-            sissbruecker/linkding:${{ env.VERSION }}-plus
-            ghcr.io/sissbruecker/linkding:latest-plus
-            ghcr.io/sissbruecker/linkding:${{ env.VERSION }}-plus
+            ghcr.io/kaushiknishchay/linkding:latest-plus
+            ghcr.io/kaushiknishchay/linkding:${{ env.VERSION }}-plus
           target: linkding-plus
           push: true
 
@@ -81,9 +69,7 @@ jobs:
           file: ./docker/alpine.Dockerfile
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: |
-            sissbruecker/linkding:latest-plus-alpine
-            sissbruecker/linkding:${{ env.VERSION }}-plus-alpine
-            ghcr.io/sissbruecker/linkding:latest-plus-alpine
-            ghcr.io/sissbruecker/linkding:${{ env.VERSION }}-plus-alpine
+            ghcr.io/kaushiknishchay/linkding:latest-plus-alpine
+            ghcr.io/kaushiknishchay/linkding:${{ env.VERSION }}-plus-alpine
           target: linkding-plus
           push: true
