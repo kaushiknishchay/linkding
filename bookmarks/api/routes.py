@@ -139,7 +139,7 @@ class BookmarkViewSet(
                 )
         try:
             ollama_tags = ollama.generate_tags(metadata, request.global_settings)
-            auto_tags.extend(ollama_tags)
+            auto_tags.append(ollama_tags)
         except Exception as e:
             logger.error(
                 f"Failed to generate tags from Ollama. url={url}",

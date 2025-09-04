@@ -9,13 +9,11 @@ logger = logging.getLogger(__name__)
 
 
 def generate_tags(metadata: WebsiteMetadata, settings: GlobalSettings) -> list[str]:
+    # log settings value
+    logger.debug(f"Ollama settings: {settings.ollama_base_api_url}, {settings.ollama_model_name}")
+    
     if not settings.ollama_base_api_url or not settings.ollama_model_name:
         return []
-
-    prompt1 = f"""Title: {metadata.title}\nDescription: {metadata.description}\n
-You are provided with the title and description of a website.\n
-You need to generate 5 tags for it.\n
-Output must be in a single line and comma-separated"""
 
     prompt = f"""
 Generate six comma-separated tags for a webpage with the following title and description.
@@ -48,7 +46,10 @@ Output only the six tags, separated by commas in a single line.
         api_response.raise_for_status()
 
         data = api_response.json()
-        tags_string = data.get('response', '')  
+        tags_string = data.get('response', '')
+
+        logger.debug(f"Ollama response: {tags_string}")
+
 
         if tags_string:
             # Ollama might return tags with newlines or extra spaces
