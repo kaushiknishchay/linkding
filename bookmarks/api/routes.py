@@ -129,6 +129,7 @@ class BookmarkViewSet(
         profile = request.user.profile
 
         auto_tags = []
+        
         if profile.auto_tagging_rules:
             try:
                 auto_tags = auto_tagging.get_tags(profile.auto_tagging_rules, url)
@@ -137,14 +138,22 @@ class BookmarkViewSet(
                     f"Failed to auto-tag bookmark. url={url}",
                     exc_info=e,
                 )
+
+        ollama_tags = []
+
         try:
             ollama_tags = ollama.generate_tags(metadata, request.global_settings)
-            auto_tags.append(ollama_tags)
         except Exception as e:
             logger.error(
                 f"Failed to generate tags from Ollama. url={url}",
                 exc_info=e,
             )
+
+        # Combine and deduplicate tags from both sources
+        if ollama_tags:
+            combined_tags = set(auto_tags)
+            combined_tags.update(ollama_tags)
+            auto_tags = list(combined_tags)
 
         return Response(
             {
